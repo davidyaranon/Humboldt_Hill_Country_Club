@@ -1,0 +1,14 @@
+
+
+.loading-modal {
+  padding: 0.5rem;
+  border-radius: 10px;
+  z-index: 100;
+  border-color: black;
+  height: 15vh;
+  width: 25vw;
+}
+
+.loading-modal::backdrop {
+  background-color: rgba(196, 226, 242, 0.5);
+}

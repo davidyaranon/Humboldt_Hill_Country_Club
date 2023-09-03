@@ -1,0 +1,9 @@
+# .gitignore
+
+# Ignore all Dockerfiles
+**/Dockerfile
+
+# Other ignores
+**/node_modules/
+**/build/
+
