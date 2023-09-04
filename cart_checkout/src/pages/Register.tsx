@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
+import LoadingDialog from "../components/LoadingDialog";
 
 interface RegisterResponseData {
   resString: string;
@@ -27,10 +28,10 @@ const Register: React.FC = () => {
    * The loading modal is opened during this, and is closed once logout has completed. 
    */
   const handleLogout = async () => {
-    // modalRef.current && modalRef.current.showModal();
+    setRegisterStatusIsLoading(true);
     await logout();
     await context.verifyToken();
-    // modalRef.current && modalRef.current.close();
+    setRegisterStatusIsLoading(false);
   };
 
   /**
@@ -90,11 +91,7 @@ const Register: React.FC = () => {
     <>
       <h1> Register </h1>
 
-      {context.authLoading &&
-        <>
-          <h2>LOADING........</h2>
-        </>
-      }
+      <LoadingDialog isLoading={registerStatusIsLoading} />
 
       {context.authError &&
         <>

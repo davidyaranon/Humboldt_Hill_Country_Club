@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
+import LoadingDialog from "../components/LoadingDialog";
 
 
 interface LoginResponseData {
@@ -15,9 +16,7 @@ const Login: React.FC = () => {
   const context = useAuthContext();
 
   const navigate = useNavigate();
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-  const [loginStatusIsLoading, setLoginStatusIsLoading] = useState<boolean | undefined>(false);
-
+  const [loginStatusIsLoading, setLoginStatusIsLoading] = useState<boolean>(false);
 
   /**
    * @function handleLogout
@@ -25,10 +24,11 @@ const Login: React.FC = () => {
    * The loading modal is opened during this, and is closed once logout has completed. 
    */
   const handleLogout = async () => {
-    modalRef.current && modalRef.current.showModal();
+    setLoginStatusIsLoading(true);
     /* const hasLoggedOut: boolean = */ await logout();
     await context.verifyToken();
-    modalRef.current && modalRef.current.close();
+    setLoginStatusIsLoading(false);
+
   };
 
   /**
@@ -84,39 +84,11 @@ const Login: React.FC = () => {
   }
 
 
-  useEffect(() => {
-    const modal = modalRef.current;
-    if (!modal) return;
-
-    const handleCancel = (event: Event) => {
-      event.preventDefault();
-    };
-
-    modal.addEventListener('cancel', handleCancel);
-
-    if (loginStatusIsLoading) {
-      modal.showModal();
-    } else {
-      modal.close();
-    }
-
-    return () => {
-      modal.removeEventListener('cancel', handleCancel);
-    };
-  }, [modalRef, loginStatusIsLoading]);
-
-
   return (
     <>
       <h1> THIS IS A Login </h1>
 
-      <dialog className='loading-modal' ref={modalRef}>LOADING........</dialog>
-
-      {context.authError &&
-        <>
-          <h2>ERROR: {context.authError.name} - {context.authError.message}</h2>
-        </>
-      }
+      <LoadingDialog isLoading={loginStatusIsLoading} />
 
 
       {!context.authLoading && context.auth.loggedIn ?

@@ -17,8 +17,12 @@ using namespace std;
 using namespace crow;
 
 /**
- * @description serves any static file using its name and file type
-*/
+ * @brief serves static files through the crow response handler
+ * 
+ * @param res the server's response
+ * @param fileName the name of the static file to serve
+ * @param contentType the type of content to serve
+ */
 void sendFile(response &res, std::string fileName, std::string contentType)
 {
   auto ss = std::ostringstream{};

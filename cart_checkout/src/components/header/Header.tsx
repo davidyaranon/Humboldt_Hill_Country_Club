@@ -1,5 +1,5 @@
 import './Header.css';
-import GolfLogo from '../../assets/golf-logo.png';
+import Logo from '../../assets/hill-logo.png';
 import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
@@ -9,7 +9,7 @@ const Header: React.FC = () => {
         <div className="header-content">
           <section className="header-logo-wrapper">
             <Link to="/">
-              <img alt="Golf Cart Company Logo" role="button" src={GolfLogo} className="header-logo"></img>
+              <img alt="Golf Cart Company Logo" role="button" src={Logo} className="header-logo"></img>
             </Link>
           </section>
           <section className="header-buttons-wrapper">

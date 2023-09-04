@@ -1,3 +1,6 @@
+#ifndef AUTHENTICATION_HPP
+#define AUTHENTICATION_HPP
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -73,7 +76,7 @@ std::string extractEmailFromToken(const std::string &token, const std::string &s
 
 /**
  * @brief Returns the uid associated with the provided JWT token.
- * This value is just the _id_ associated with the MongoDB document.
+ * This value is just the _id value associated with the MongoDB document.
  *
  * @param token the JWT token.
  * @param secret_key_string the secret key string used for verification.
@@ -134,3 +137,5 @@ bool is_rate_limited(std::unordered_map<std::string, std::pair<int, std::chrono:
   }
   return false;
 }
+
+#endif

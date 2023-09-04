@@ -1,8 +1,7 @@
 header.header {
   --tw-bg-opacity: 1;
   background-color: rgb(166, 224, 255/var(--tw-bg-opacity));
-  position: -webkit-fixed;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
