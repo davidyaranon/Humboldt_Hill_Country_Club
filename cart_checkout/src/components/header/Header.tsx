@@ -1,8 +1,12 @@
 import './Header.css';
 import Logo from '../../assets/hill-logo.png';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../my-context';
 
 const Header: React.FC = () => {
+
+  const context = useAuthContext();
+
   return (
     <>
       <header className="header">
@@ -13,18 +17,34 @@ const Header: React.FC = () => {
             </Link>
           </section>
           <section className="header-buttons-wrapper">
-            <ul>
-              <li>
-                <Link to="/login">
-                  <button>Sign In</button>
-                </Link>
-              </li>
-              <li>
-                <Link to="/register">
-                  <button>Register</button>
-                </Link>
-              </li>
-            </ul>
+            {!context.authLoading && !context.auth.loggedIn &&
+              <ul>
+                <li>
+                  <Link to="/login">
+                    <button>Sign In</button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/register">
+                    <button>Register</button>
+                  </Link>
+                </li>
+              </ul>
+            }
+
+            {!context.authLoading && context.auth.loggedIn &&
+              <ul>
+                <li>
+                  Hello, {context.auth.email}!
+                </li>
+                <li>
+                  <Link to="/logout">
+                    <button>Logout</button>
+                  </Link>
+                </li>
+              </ul>
+            }
+
           </section>
         </div>
       </header>

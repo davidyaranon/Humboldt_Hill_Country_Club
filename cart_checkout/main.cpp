@@ -96,6 +96,11 @@ int main(int argc, const char *argv[])
     sendHTML(res, "index.html");
   });
 
+  CROW_ROUTE(app, "/checkout").methods("GET"_method)([](const crow::request &req, crow::response &res)
+  {
+    sendHTML(res, "index.html");
+  });
+
   CROW_ROUTE(app, "/manifest.json")([](const crow::request &req, crow::response &res)
   {
     sendJSON(res, "manifest.json"); // Loads manifest file
@@ -415,7 +420,7 @@ int main(int argc, const char *argv[])
     return res;
   });
 
-  CROW_ROUTE(app, "/checkout").methods("POST"_method)([&](const crow::request& req)
+  CROW_ROUTE(app, "/cart-info").methods("POST"_method)([&database_available, &rate_limit_map, &cart_collection](const crow::request &req)
   {
 
     // Ensure MongoDB connection is established
@@ -425,23 +430,57 @@ int main(int argc, const char *argv[])
       return crow::response(503);
     }
 
-    // Ensure request body is valid
-    crow::json::rvalue body = crow::json::load(req.body);
-    if(!body)
+    // Ensures request IP Address is not blacklisted
+    std::string ip_address = req.remote_ip_address;
+    if (is_rate_limited(rate_limit_map, ip_address)) 
     {
-      std::cout << "Invalid request body" << std::endl;
-      return crow::response(400);
+      std::cout << "Too many requests" << std::endl;
+      return crow::response(429);
     }
 
-    crow::json::wvalue resJSON;
+    crow::json::wvalue carts;
 
-    resJSON["resString"] = "Successfully checked out a cart";
+    bsoncxx::document::view_or_value filter{};
+    auto cursor = cart_collection.find(filter);
+    
+    int i = 0;
+    for (auto&& doc : cursor) 
+    {
+      crow::json::wvalue cart;
+      std::string id_str = "";
+      std::string name = "";
+      int type = 0;
+      bool available;
 
-    resJSON["databaseAvailable"] = database_available;
+      auto id_element = doc["_id"];
+      if (id_element && id_element.type() == bsoncxx::type::k_oid) {
+        id_str = id_element.get_oid().value.to_string();
+      }
 
-    return crow::response(resJSON);
+      auto name_element = doc["name"];
+      if (name_element && name_element.type() == bsoncxx::type::k_utf8) {
+        name = name_element.get_utf8().value.to_string();
+      }
+
+      auto type_element = doc["type"];
+      if (type_element && type_element.type() == bsoncxx::type::k_int32) {
+        type = type_element.get_int32().value;
+      }
+
+      auto available_element = doc["available"];
+      if (available_element && available_element.type() == bsoncxx::type::k_bool) {
+        available = available_element.get_bool().value;
+      }
+
+      cart["id"] = id_str;
+      cart["name"] = name;
+      cart["type"] = type;
+      cart["available"] = available;
+      carts[i++] = std::move(cart);
+    }
+
+    return crow::response(200, carts);
   });
-
 
   // Necessary Crow stuff to run server
   char *port = getenv("PORT");

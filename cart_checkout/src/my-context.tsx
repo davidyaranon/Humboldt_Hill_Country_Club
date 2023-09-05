@@ -29,7 +29,7 @@ export type AuthContextType = {
 export const Context = React.createContext<AuthContextType | null>(null);
 export const ContextProvider = ({ children }: Props) => {
 
-  const [authLoading, setAuthLoading] = React.useState<boolean>(false);
+  const [authLoading, setAuthLoading] = React.useState<boolean>(true);
   const [authError, setAuthError] = React.useState<Error | null>(null);
   const [auth, setAuth] = React.useState<MongoDbAuth>({ loggedIn: false, email: '', uid: null });
 
@@ -80,6 +80,7 @@ export const ContextProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
+    console.log("Verifying Token...");
     verifyToken();
   }, []);
 

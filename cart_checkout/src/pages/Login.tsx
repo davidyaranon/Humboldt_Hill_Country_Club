@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { logout } from "../Cart";
+// import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
 import LoadingDialog from "../components/loading/LoadingDialog";
 
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -26,13 +26,12 @@ const Login: React.FC = () => {
    * @description this function calls the logout utility function and verfies that the JWT token has been invalidated.
    * The loading modal is opened during this, and is closed once logout has completed. 
    */
-  const handleLogout = async () => {
-    setLoginStatusIsLoading(true);
-    /* const hasLoggedOut: boolean = */ await logout();
-    await context.verifyToken();
-    setLoginStatusIsLoading(false);
-
-  };
+  // const handleLogout = async () => {
+  //   setLoginStatusIsLoading(true);
+  //   /* const hasLoggedOut: boolean = */ await logout();
+  //   await context.verifyToken();
+  //   setLoginStatusIsLoading(false);
+  // };
 
   /**
    * @function handleLogin
@@ -85,6 +84,12 @@ const Login: React.FC = () => {
       setLoginStatusIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    if(context.auth.loggedIn) {
+      navigate('/', { replace: true });
+    }
+  }, [context.auth])
 
 
   return (
