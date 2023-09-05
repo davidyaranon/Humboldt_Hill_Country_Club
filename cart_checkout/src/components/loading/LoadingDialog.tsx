@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import '../pages/Content.css';
+import './LoadingDialog.css';
 
 interface LoadingDialogProps {
   isLoading: boolean;

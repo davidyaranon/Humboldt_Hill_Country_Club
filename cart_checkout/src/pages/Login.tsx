@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
-import LoadingDialog from "../components/LoadingDialog";
+import LoadingDialog from "../components/loading/LoadingDialog";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 interface LoginResponseData {
@@ -86,31 +89,34 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <h1> THIS IS A Login </h1>
+      <h1 className='login-title'> Sign in to your account </h1>
 
-      <LoadingDialog isLoading={loginStatusIsLoading} />
+      <LoadingDialog isLoading={context.authLoading || loginStatusIsLoading} />
 
-
-      {!context.authLoading && context.auth.loggedIn ?
-        <h2> LOGGED IN - {context.auth.email} , {context.auth.uid} </h2>
-        :
+      {!context.auth.loggedIn &&
         <section id="login-form">
           <form onSubmit={async (e: React.FormEvent<HTMLFormElement>) => await handleLogin(e)}>
-            <input name="email" type="email" placeholder="email@email.com" required />
-            <input name="password" type="password" required />
-            <button disabled={loginStatusIsLoading} type="submit" name="login">Login</button>
+            <label className='input-label' htmlFor="email">Email</label>
+            <input className='email-input' aria-label="Login Email"  name="email" type="email" placeholder="email@email.com" required />
+            <label className='input-label' htmlFor="password">Password</label>
+            <input className='password-input' aria-label="Login Password" name="password" type="password" placeholder="●●●●●●" required />
+            <button className='login-submit-button' disabled={loginStatusIsLoading} type="submit" name="login">Sign In</button>
           </form>
         </section>
       }
 
-
-      <section id="login-info">
-        NOTE: Feel free to use any email and password combination you wish, there are no strict requirements &gt;.&lt;
+      <section id='not-a-member'>
+        <p>Not a member? <Link className='link' to='/register'>Join Now!</Link></p>
       </section>
 
+
+      {/* <section id="login-info">
+        NOTE: Feel free to use any email and password combination you wish, there are no strict requirements &gt;.&lt;
+      </section> */}
+{/* 
       <section>
         <button onClick={async () => { await handleLogout() }}>Logout</button>
-      </section>
+      </section> */}
     </>
   );
 };

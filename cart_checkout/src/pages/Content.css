@@ -1,14 +1,77 @@
+/* #4b590e, #98a120 */
 
-
-.loading-modal {
-  padding: 0.5rem;
-  border-radius: 10px;
-  z-index: 100;
-  border-color: black;
-  height: 15vh;
-  width: 25vw;
+h1.login-title {
+  font-size: 2rem;
+  color: #4b590e;
 }
 
-.loading-modal::backdrop {
-  background-color: rgba(196, 226, 242, 0.5);
+p.input-label {
+  margin: 0;
+  padding: 0;
+}
+
+section#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+section#login-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+label.input-label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+input.email-input[type="email"],
+input.password-input[type="password"] {
+  width: 80vw;
+  max-width: 750px;
+  height: 45px;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+  border: 2px solid #98a120;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #4b590e;
+}
+
+button.login-submit-button[type="submit"] {
+  width: 80vw;
+  max-width: 750px;
+  height: 45px;
+  background-color: #98a120;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button.login-submit-button[type="submit"]:hover {
+  background-color: #7d8e17;
+}
+
+button.login-submit-button[type="submit"]:disabled {
+  background-color: #ccc;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.link {
+  color: #98a120;
+}
+
+.link:hover {
+  opacity: 0.75;
+  color: #4b590e;
 }

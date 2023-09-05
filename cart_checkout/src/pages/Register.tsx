@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
-import LoadingDialog from "../components/LoadingDialog";
+import LoadingDialog from "../components/loading/LoadingDialog";
 
 interface RegisterResponseData {
   resString: string;
