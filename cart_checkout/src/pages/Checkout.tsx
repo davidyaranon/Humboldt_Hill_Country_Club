@@ -52,7 +52,7 @@ const Checkout: React.FC = () => {
     if (!context.authLoading) {
       if (!context.auth.loggedIn) {
         console.log('checkout page - not logged in')
-        navigate('/', { replace: true });
+        navigate('/login', { replace: true });
       } else {
         console.log('checkout page - fetching carts')
         fetchCarts();
@@ -64,6 +64,10 @@ const Checkout: React.FC = () => {
     <>
       <h1>Checking out carts</h1>
       <LoadingDialog isLoading={cartDataLoading} />
+
+      {/* {context.authError &&
+        <ErrorDialog />
+      } */}
 
       <ul>
         {cartData.map((cart: CartData, idx: number) => {

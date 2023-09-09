@@ -3,6 +3,12 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  --toastify-color-light: #FFFFFF;
+  --toastify-icon-color-success: #2F4858;
+  --toastify-icon-color-error: #FF3B61;
+  --toastify-color-progress-error: #FF3B61;
+  --toastify-color-progress-success: linear-gradient(to right, #61A94D, #2F4858);
+  --toastify-color-progress-light: linear-gradient(to right, #61A94D, #2F4858);
 }
 
 * {

@@ -163,7 +163,7 @@ int main(int argc, const char *argv[])
     res.end();
   });
 
-  CROW_ROUTE(app, "/verify-token").methods("POST"_method)([&app](const crow::request &req)
+  CROW_ROUTE(app, "/verify-token").methods("POST"_method)([&app, &user_collection](const crow::request &req)
   {
 
     // Check for secret key on the server environment
@@ -202,9 +202,34 @@ int main(int argc, const char *argv[])
       return crow::response(401);
     }
 
+    // Find document which contains the provided email address and uid
+    std::string name = "";
+    auto filter_doc = document{} << "email" << email << "_id" << bsoncxx::oid(uid) << bsoncxx::builder::stream::finalize;
+    auto find_one_filtered_result = user_collection.find_one(filter_doc.view());
+    if (find_one_filtered_result) 
+    {
+      auto view = find_one_filtered_result->view();
+
+      auto name_element = view["name"];
+      if (name_element && name_element.type() == bsoncxx::type::k_utf8) 
+      {
+        name = name_element.get_utf8().value.to_string();
+        std::cout << "Name from database: " << name << std::endl;
+      }
+      else 
+      {
+        std::cout << "Name field is missing or not a string" << std::endl;
+      }
+    }
+    else 
+    {
+      std::cout << "No document matching the filter found" << std::endl;
+    }
+
     crow::json::wvalue resJSON;
     resJSON["email"] = email;
     resJSON["uid"] = uid;
+    resJSON["name"] = name;
     resJSON["verificationSuccess"] = true;
 
     return crow::response(200, resJSON);
@@ -356,10 +381,12 @@ int main(int argc, const char *argv[])
     std::string returned_token = "";
 
     // Ensure both email and password params are valid and/or were provided by user
-    if(body.has("email") && body.has("password"))
+    if(body.has("email") && body.has("password") && body.has("name"))
     {
       std::string email = body["email"].s();
       std::string password = body["password"].s();
+      std::string name = body["name"].s();
+      trim(email); trim(name);
       std::string secret_key_string(secret_key);
 
       // Ensure user with email does not already exist
@@ -376,7 +403,7 @@ int main(int argc, const char *argv[])
         // Create row in User collection wil email and hashed password
         std::string pepper(secret_key_pepper);
         std::string hashed_password = BCrypt::generateHash((password + pepper));
-        bsoncxx::document::value doc_value = make_document(kvp("email", email), kvp("password", hashed_password));
+        bsoncxx::document::value doc_value = make_document(kvp("email", email), kvp("password", hashed_password), kvp("name", name));
         auto insert_result = user_collection.insert_one(std::move(doc_value));
 
         std::string uid = insert_result->inserted_id().get_oid().value.to_string();
@@ -426,7 +453,7 @@ int main(int argc, const char *argv[])
     // Ensure MongoDB connection is established
     if(!database_available)
     {
-      std::cout << "Database unavailable when trying to register account" << std::endl;
+      std::cout << "Database unavailable when trying to access cart info" << std::endl;
       return crow::response(503);
     }
 
@@ -480,6 +507,11 @@ int main(int argc, const char *argv[])
     }
 
     return crow::response(200, carts);
+  });
+
+  CROW_ROUTE(app, "/user-info").methods("POST"_method)([&user_collection](const crow::request& req)
+  {
+    return crow::response(200);
   });
 
   // Necessary Crow stuff to run server

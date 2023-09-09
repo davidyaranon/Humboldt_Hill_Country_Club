@@ -5,13 +5,15 @@ type Props = {
 }
 
 export interface MongoDbAuth {
-  loggedIn: boolean; // meaning the jwt token is valid
   email: string;
+  name: string;
   uid: string | null;
+  loggedIn: boolean; // meaning the jwt token is valid
 }
 
 export interface VerifyTokenData {
   email: string;
+  name: string;
   uid: string; // uid is the _id associated with the MongoDB document
   verificationSuccess: boolean;
 }
@@ -31,7 +33,7 @@ export const ContextProvider = ({ children }: Props) => {
 
   const [authLoading, setAuthLoading] = React.useState<boolean>(true);
   const [authError, setAuthError] = React.useState<Error | null>(null);
-  const [auth, setAuth] = React.useState<MongoDbAuth>({ loggedIn: false, email: '', uid: null });
+  const [auth, setAuth] = React.useState<MongoDbAuth>({ loggedIn: false, email: '', uid: null, name: '' });
 
   /**
    * @function verifyToken 
@@ -62,11 +64,11 @@ export const ContextProvider = ({ children }: Props) => {
       setAuthLoading(false);
       if (data.verificationSuccess) {
         console.log('Token verified');
-        setAuth({ loggedIn: true, email: data.email, uid: data.uid });
+        setAuth({ loggedIn: true, email: data.email, uid: data.uid, name: data.name });
         return true;
       } else {
         console.log('Token verification failed');
-        setAuth({ loggedIn: false, email: '', uid: null });
+        setAuth({ loggedIn: false, email: '', uid: null, name: '' });
         return false;
       }
 
@@ -74,7 +76,7 @@ export const ContextProvider = ({ children }: Props) => {
       setAuthLoading(false);
       console.error("Error while verifying token:", err);
       setAuthError(err);
-      setAuth({ loggedIn: false, email: '', uid: null });
+      setAuth({ loggedIn: false, email: '', uid: null, name: '' });
       return false;
     }
   };

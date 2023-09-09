@@ -5,33 +5,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../my-context";
 import LoadingDialog from "../components/loading/LoadingDialog";
 
-// import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 interface LoginResponseData {
   loginSuccess: boolean;
   resString: string;
 };
 
-const Login: React.FC = () => {
+interface LoginProps {
+  showToastSuccess: (message: string) => void;
+  showToastError: (message: string) => void;
+}
+
+const Login: React.FC<LoginProps> = (props: LoginProps) => {
 
   const context = useAuthContext();
 
   const navigate = useNavigate();
   const [loginStatusIsLoading, setLoginStatusIsLoading] = useState<boolean>(false);
 
-  /**
-   * @function handleLogout
-   * @description this function calls the logout utility function and verfies that the JWT token has been invalidated.
-   * The loading modal is opened during this, and is closed once logout has completed. 
-   */
-  // const handleLogout = async () => {
-  //   setLoginStatusIsLoading(true);
-  //   /* const hasLoggedOut: boolean = */ await logout();
-  //   await context.verifyToken();
-  //   setLoginStatusIsLoading(false);
-  // };
+  const { showToastSuccess, showToastError } = props;
 
   /**
    * @function handleLogin
@@ -52,7 +44,7 @@ const Login: React.FC = () => {
       const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
       if (!email || !password) {
-        alert("Please enter both an email and password");
+        showToastError("Please enter both an email and password");
         return;
       }
 
@@ -65,7 +57,7 @@ const Login: React.FC = () => {
       });
 
       if (!res.ok) {
-        alert(res.statusText);
+        showToastError(res.statusText);
         throw new Error(`Server responded with status: ${res.status}`);
       }
 
@@ -73,9 +65,10 @@ const Login: React.FC = () => {
 
       if (data.loginSuccess) {
         await context.verifyToken();
+        showToastSuccess("You're Signed In!");
         navigate('/', { replace: true });
       } else {
-        alert(data.resString);
+        showToastError(data.resString);
       }
 
     } catch (error: any) {
@@ -86,7 +79,7 @@ const Login: React.FC = () => {
   }
 
   useEffect(() => {
-    if(context.auth.loggedIn) {
+    if (context.auth.loggedIn) {
       navigate('/', { replace: true });
     }
   }, [context.auth])
@@ -94,7 +87,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <h1 className='login-title'> Sign in to your account </h1>
+      <h1 className='login-title'> Sign In to your Account </h1>
 
       <LoadingDialog isLoading={context.authLoading || loginStatusIsLoading} />
 
@@ -102,7 +95,7 @@ const Login: React.FC = () => {
         <section id="login-form">
           <form onSubmit={async (e: React.FormEvent<HTMLFormElement>) => await handleLogin(e)}>
             <label className='input-label' htmlFor="email">Email</label>
-            <input className='email-input' aria-label="Login Email"  name="email" type="email" placeholder="email@email.com" required />
+            <input className='email-input' aria-label="Login Email" name="email" type="email" placeholder="email@email.com" required />
             <label className='input-label' htmlFor="password">Password</label>
             <input className='password-input' aria-label="Login Password" name="password" type="password" placeholder="●●●●●●" required />
             <button className='login-submit-button' disabled={loginStatusIsLoading} type="submit" name="login">Sign In</button>
@@ -114,14 +107,6 @@ const Login: React.FC = () => {
         <p>Not a member? <Link className='link' to='/register'>Join Now!</Link></p>
       </section>
 
-
-      {/* <section id="login-info">
-        NOTE: Feel free to use any email and password combination you wish, there are no strict requirements &gt;.&lt;
-      </section> */}
-{/* 
-      <section>
-        <button onClick={async () => { await handleLogout() }}>Logout</button>
-      </section> */}
     </>
   );
 };

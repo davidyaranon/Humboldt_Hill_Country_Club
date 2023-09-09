@@ -3,11 +3,11 @@
  * @fileoverview The Registration page. Allows users to register for a new account using their email and password.
  */
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { logout } from "../Cart";
 import { useAuthContext } from "../my-context";
+
 import LoadingDialog from "../components/loading/LoadingDialog";
 
 interface RegisterResponseData {
@@ -15,24 +15,19 @@ interface RegisterResponseData {
   registerSuccess: boolean;
 }
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  showToastSuccess: (message: string) => void;
+  showToastError: (message: string) => void;
+}
+
+const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
 
   const context = useAuthContext();
 
+  const { showToastSuccess, showToastError } = props;
+
   const navigate = useNavigate();
   const [registerStatusIsLoading, setRegisterStatusIsLoading] = useState<boolean>(false);
-
-  /**
-   * @function handleLogout
-   * @description this function calls the logout utility function and verfies that the JWT token has been invalidated.
-   * The loading modal is opened during this, and is closed once logout has completed. 
-   */
-  const handleLogout = async () => {
-    setRegisterStatusIsLoading(true);
-    await logout();
-    await context.verifyToken();
-    setRegisterStatusIsLoading(false);
-  };
 
   /**
    * @function handleRegister
@@ -50,10 +45,11 @@ const Register: React.FC = () => {
     try {
       const form = e.currentTarget;
       const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      const name = (form.elements.namedItem('fullName') as HTMLInputElement).value.trim();
       const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
-      if (!email || !password) {
-        alert("Please enter both an email and password");
+      if (!email || !password || !name) {
+        showToastError("Please fill out all form inputs!");
         return;
       }
 
@@ -62,11 +58,11 @@ const Register: React.FC = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, name, password })
       });
 
       if (!res.ok) {
-        alert(res.statusText);
+        showToastError(res.statusText);
         throw new Error(`Server responded with status: ${res.status}`);
       }
 
@@ -74,47 +70,52 @@ const Register: React.FC = () => {
 
       if (data.registerSuccess) {
         await context.verifyToken();
+        showToastSuccess("Successfully registered!");
         navigate('/', { replace: true });
       } else {
-        alert(data.resString);
+        showToastError(data.resString);
       }
 
     } catch (error: any) {
       console.error("An error occurred:", error);
+      showToastError("Something went wrong!");
     } finally {
       setRegisterStatusIsLoading(false);
     }
   }
 
+  useEffect(() => {
+    if (context.auth.loggedIn) {
+      navigate('/', { replace: true });
+    }
+  }, [context.auth]);
+
 
   return (
     <>
-      <h1> Register </h1>
+
+      <h1 className='login-title'> Register for an Account </h1>
 
       <LoadingDialog isLoading={registerStatusIsLoading} />
 
-      {context.authError &&
-        <>
-          <h2>ERROR: {context.authError.name} - {context.authError.message}</h2>
-        </>
-      }
-
-
-      {!context.authLoading && context.auth.loggedIn ?
-        <h2>Logged In... {context.auth.email} - {context.auth.uid} </h2>
-        :
-        <section id="register-form">
+      {!context.auth.loggedIn &&
+        <section id="login-form">
           <form onSubmit={async (e: React.FormEvent<HTMLFormElement>) => await handleRegister(e)}>
-            <input name="email" type="email" placeholder="email@email.com" required />
-            <input name="password" type="password" required />
-            <button disabled={registerStatusIsLoading} type="submit" name="login">Register</button>
+            <label className='input-label' htmlFor="fullName">Full Name</label>
+            <input className='name-input' aria-label="User Full Name" name="fullName" type="text" placeholder="Mr. Humboldt" required />
+            <label className='input-label' htmlFor="email">Email</label>
+            <input className='email-input' aria-label="Login Email" name="email" type="email" placeholder="email@email.com" required />
+            <label className='input-label' htmlFor="password">Password</label>
+            <input className='password-input' aria-label="Login Password" name="password" type="password" placeholder="●●●●●●" required />
+            <button className='login-submit-button' disabled={registerStatusIsLoading} type="submit" name="login">Register</button>
           </form>
         </section>
       }
 
-      <section>
-        <button onClick={async () => { await handleLogout() }}>Logout</button>
+      <section id='not-a-member'>
+        <p>Already a member? <Link className='link' to='/login'>Sign In!</Link></p>
       </section>
+
     </>
   )
 };

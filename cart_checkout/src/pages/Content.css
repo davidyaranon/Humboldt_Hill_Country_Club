@@ -1,13 +1,6 @@
-/* #4b590e, #98a120 */
-
 h1.login-title {
   font-size: 2rem;
-  color: #4b590e;
-}
-
-p.input-label {
-  margin: 0;
-  padding: 0;
+  color: #2F4858;
 }
 
 section#login-form {
@@ -28,27 +21,50 @@ label.input-label {
   margin-bottom: 8px;
   font-size: 16px;
   font-weight: bold;
+  color: #2F4858;
+}
+
+input.email-input[type="email"]:-webkit-autofill,
+input.email-input[type="email"]:-webkit-autofill:hover,
+input.email-input[type="email"]:-webkit-autofill:focus,
+input.email-input[type="email"]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+input.name-input[type="text"]:-webkit-autofill,
+input.name-input[type="text"]:-webkit-autofill:hover,
+input.name-input[type="text"]:-webkit-autofill:focus,
+input.name-input[type="text"]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+input.password-input[type="password"]:-webkit-autofill,
+input.password-input[type="password"]:-webkit-autofill:hover,
+input.password-input[type="password"]:-webkit-autofill:focus,
+input.password-input[type="password"]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 
 input.email-input[type="email"],
+input.name-input[type="text"],
 input.password-input[type="password"] {
   width: 80vw;
   max-width: 750px;
   height: 45px;
   margin-bottom: 1rem;
   padding: 0 1rem;
-  border: 2px solid #98a120;
+  border: 2px solid #61A94D;
   border-radius: 5px;
   font-size: 16px;
-  color: #4b590e;
+  color: #2F4858;
 }
 
 button.login-submit-button[type="submit"] {
   width: 80vw;
   max-width: 750px;
   height: 45px;
-  background-color: #98a120;
+  background-color: #00956B;
   color: white;
   border: none;
   border-radius: 5px;
@@ -59,7 +75,7 @@ button.login-submit-button[type="submit"] {
 }
 
 button.login-submit-button[type="submit"]:hover {
-  background-color: #7d8e17;
+  background-color: #61A94D;
 }
 
 button.login-submit-button[type="submit"]:disabled {
@@ -69,10 +85,23 @@ button.login-submit-button[type="submit"]:disabled {
 }
 
 .link {
-  color: #98a120;
+  color: #00956B;
+  border-radius: 2.5px;
 }
 
 .link:hover {
   opacity: 0.75;
-  color: #4b590e;
+  color: #61A94D;
+}
+
+input:focus,
+.link:focus {
+  outline: none !important;
+  border: 1px solid #61A94D;
+  box-shadow: 0 0 10px #006272;
+}
+
+button:focus {
+  outline: none !important;
+  border: 15px solid #61A94D;
 }

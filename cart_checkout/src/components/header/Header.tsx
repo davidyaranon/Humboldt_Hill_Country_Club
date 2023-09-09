@@ -11,12 +11,15 @@ const Header: React.FC = () => {
     <>
       <header className="header">
         <div className="header-content">
+
           <section className="header-logo-wrapper">
             <Link to="/">
-              <img alt="Golf Cart Company Logo" role="button" src={Logo} className="header-logo"></img>
+              <img aria-label="Humboldt Hill Country Club Company Logo" alt="Humboldt Hill Country Club Company Logo" role="button" src={Logo} className="header-logo"></img>
             </Link>
           </section>
+
           <section className="header-buttons-wrapper">
+
             {!context.authLoading && !context.auth.loggedIn &&
               <ul>
                 <li>
@@ -35,17 +38,13 @@ const Header: React.FC = () => {
             {!context.authLoading && context.auth.loggedIn &&
               <ul>
                 <li>
-                  Hello, {context.auth.email}!
-                </li>
-                <li>
-                  <Link to="/logout">
-                    <button>Logout</button>
-                  </Link>
+                  Hello, <Link to="/">{context.auth.name}</Link>
                 </li>
               </ul>
             }
 
           </section>
+
         </div>
       </header>
     </>
