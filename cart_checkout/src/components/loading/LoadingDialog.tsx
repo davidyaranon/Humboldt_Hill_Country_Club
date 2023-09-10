@@ -35,8 +35,10 @@ const LoadingDialog = (props: LoadingDialogProps) => {
 
   return (
     <dialog className='loading-modal' ref={modalRef}>
-      <div className="spinner"></div>
-      <p>{loadingMessage}</p>
+      <div className="flex-container">
+        <div className="spinner"></div>
+        <p>{loadingMessage}</p>
+      </div>
     </dialog>
   );
 };
