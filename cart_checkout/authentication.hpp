@@ -118,7 +118,7 @@ bool is_rate_limited(std::unordered_map<std::string, std::pair<int, std::chrono:
     auto request_count = pair.first;
     auto last_request_time = pair.second;
 
-    if (current_time - last_request_time < std::chrono::seconds(60) && request_count >= 5)
+    if (current_time - last_request_time < std::chrono::seconds(60) && request_count >= 10)
     {
       return true;
     }

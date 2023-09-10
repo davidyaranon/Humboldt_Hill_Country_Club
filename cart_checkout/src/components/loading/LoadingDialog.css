@@ -1,5 +1,5 @@
 .loading-modal {
-  width: 300px;
+  width: 250px;
   height: 100px;
   background-color: #fff;
   border: 2px solid rgb(0, 98, 114);
@@ -14,7 +14,9 @@
 }
 
 .loading-modal p {
-  margin-left: 20px;
+  margin-left: 10%;
+  font-weight: 600;
+  color: #2F4858;
 }
 
 .spinner {
@@ -35,5 +37,5 @@
 
 .loading-modal::backdrop {
   background-color: rgba(47, 72, 88, 0.5);
-  backdrop-filter: blur(0.5px);
+  backdrop-filter: blur(1px);
 }
