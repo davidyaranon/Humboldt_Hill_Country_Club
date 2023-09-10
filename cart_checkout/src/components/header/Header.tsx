@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <div className="header-content">
 
           <section className="header-logo-wrapper">
-            <Link to="/">
+            <Link to="/" tabIndex={-1}>
               <img aria-label="Humboldt Hill Country Club Company Logo" alt="Humboldt Hill Country Club Company Logo" role="button" src={Logo} className="header-logo"></img>
             </Link>
           </section>
@@ -23,12 +23,12 @@ const Header: React.FC = () => {
             {!context.authLoading && !context.auth.loggedIn &&
               <ul>
                 <li>
-                  <Link to="/login">
+                  <Link to="/login" tabIndex={-1}>
                     <button>Sign In</button>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/register">
+                  <Link to="/register" tabIndex={-1}>
                     <button>Register</button>
                   </Link>
                 </li>

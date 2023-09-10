@@ -63,7 +63,7 @@ const Checkout: React.FC = () => {
   return (
     <>
       <h1>Checking out carts</h1>
-      <LoadingDialog isLoading={cartDataLoading} />
+      <LoadingDialog loadingMessage={"Loading Cart Info..."} isLoading={cartDataLoading} />
 
       {/* {context.authError &&
         <ErrorDialog />

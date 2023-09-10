@@ -96,7 +96,7 @@ const Register: React.FC<RegisterProps> = (props: RegisterProps) => {
 
       <h1 className='login-title'> Register for an Account </h1>
 
-      <LoadingDialog isLoading={registerStatusIsLoading} />
+      <LoadingDialog loadingMessage={"Registering..."} isLoading={registerStatusIsLoading} />
 
       {!context.auth.loggedIn &&
         <section id="login-form">

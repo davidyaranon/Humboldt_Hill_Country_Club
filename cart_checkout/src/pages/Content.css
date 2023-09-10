@@ -54,7 +54,7 @@ input.password-input[type="password"] {
   height: 45px;
   margin-bottom: 1rem;
   padding: 0 1rem;
-  border: 2px solid #61A94D;
+  border: 2px solid #00956B;
   border-radius: 5px;
   font-size: 16px;
   color: #2F4858;
@@ -76,6 +76,11 @@ button.login-submit-button[type="submit"] {
 
 button.login-submit-button[type="submit"]:hover {
   background-color: #61A94D;
+}
+
+button.login-submit-button[type="submit"]:focus {
+  background-color: #61A94D;
+  border: 2px solid #00956B;
 }
 
 button.login-submit-button[type="submit"]:disabled {
@@ -103,5 +108,5 @@ input:focus,
 
 button:focus {
   outline: none !important;
-  border: 15px solid #61A94D;
+  border: 1px solid #61A94D;
 }

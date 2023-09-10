@@ -3,11 +3,12 @@ import './LoadingDialog.css';
 
 interface LoadingDialogProps {
   isLoading: boolean;
+  loadingMessage: string;
 }
 
 const LoadingDialog = (props: LoadingDialogProps) => {
 
-  const { isLoading } = props;
+  const { isLoading, loadingMessage } = props;
 
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -33,7 +34,10 @@ const LoadingDialog = (props: LoadingDialogProps) => {
   }, [modalRef, isLoading]);
 
   return (
-    <dialog className='loading-modal' ref={modalRef}>LOADING........</dialog>
+    <dialog className='loading-modal' ref={modalRef}>
+      <div className="spinner"></div>
+      <p>{loadingMessage}</p>
+    </dialog>
   );
 };
 

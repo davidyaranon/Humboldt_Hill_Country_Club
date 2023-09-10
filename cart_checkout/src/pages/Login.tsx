@@ -89,7 +89,7 @@ const Login: React.FC<LoginProps> = (props: LoginProps) => {
     <>
       <h1 className='login-title'> Sign In to your Account </h1>
 
-      <LoadingDialog isLoading={context.authLoading || loginStatusIsLoading} />
+      <LoadingDialog loadingMessage={"Signing In..."} isLoading={context.authLoading || loginStatusIsLoading} />
 
       {!context.auth.loggedIn &&
         <section id="login-form">
