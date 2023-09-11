@@ -1,4 +1,14 @@
+.main-content {
+  margin-top: 10%;
+}
+
 h1.login-title {
+  font-size: 2rem;
+  color: #2F4858;
+}
+
+h1.landing-page-title {
+  padding: 10px;
   font-size: 2rem;
   color: #2F4858;
 }
@@ -54,7 +64,7 @@ input.password-input[type="password"] {
   height: 45px;
   margin-bottom: 1rem;
   padding: 0 1rem;
-  border: 2px solid #00956B;
+  border: 2px solid #61A94D;
   border-radius: 5px;
   font-size: 16px;
   color: #2F4858;
@@ -64,7 +74,7 @@ button.login-submit-button[type="submit"] {
   width: 80vw;
   max-width: 750px;
   height: 45px;
-  background-color: #00956B;
+  background-color: #61A94D;
   color: white;
   border: none;
   border-radius: 5px;
@@ -75,12 +85,12 @@ button.login-submit-button[type="submit"] {
 }
 
 button.login-submit-button[type="submit"]:hover {
-  background-color: #61A94D;
+  background-color: #00956B;
 }
 
 button.login-submit-button[type="submit"]:focus {
-  background-color: #61A94D;
-  border: 2px solid #00956B;
+  background-color: #00956B;
+  border: 2px solid #61A94D;
 }
 
 button.login-submit-button[type="submit"]:disabled {
@@ -90,23 +100,43 @@ button.login-submit-button[type="submit"]:disabled {
 }
 
 .link {
-  color: #00956B;
+  color: #61A94D;
   border-radius: 2.5px;
 }
 
 .link:hover {
   opacity: 0.75;
-  color: #61A94D;
+  color: #00956B;
 }
 
-input:focus,
-.link:focus {
+input:focus {
   outline: none !important;
-  border: 1px solid #61A94D;
+  border: 1px solid #00956B;
   box-shadow: 0 0 10px #006272;
 }
 
 button:focus {
   outline: none !important;
-  border: 1px solid #61A94D;
+  border: 1px solid #00956B;
+}
+
+.image-container {
+  width: 100vw; 
+  height: 787px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.contained-image {
+  object-fit: cover;
+  width: 100vw;
+  height: 100%;
+  opacity: 0.95;
+}
+
+.block-container {
+  background-color: rgba(97, 169, 77, 0.95);
+  height: 35vh;
 }

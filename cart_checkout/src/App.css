@@ -1,8 +1,7 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-height: 100vh;
   --toastify-color-light: #FFFFFF;
   --toastify-icon-color-success: #2F4858;
   --toastify-icon-color-error: #FF3B61;
@@ -12,6 +11,8 @@
 }
 
 * {
+  margin: 0;
+  padding: 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

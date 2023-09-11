@@ -8,6 +8,7 @@ import Checkout from './Checkout';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import User from './User';
 
 const Content: React.FC = () => {
 
@@ -48,6 +49,7 @@ const Content: React.FC = () => {
           <Route path="/login" element={<Login showToastSuccess={showToastSuccess} showToastError={showToastError} />} />
           <Route path="/register" element={<Register showToastSuccess={showToastSuccess} showToastError={showToastError} />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/user/:uid" element={<User />} />
         </Routes>
       </section>
 

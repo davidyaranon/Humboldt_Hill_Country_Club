@@ -19,26 +19,27 @@ const Header: React.FC = () => {
           </section>
 
           <section className="header-buttons-wrapper">
-
-            {!context.authLoading && !context.auth.loggedIn &&
-              <ul>
-                <li>
-                  <Link to="/login" tabIndex={-1}>
-                    <button>Sign In</button>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/register" tabIndex={-1}>
-                    <button>Register</button>
-                  </Link>
-                </li>
-              </ul>
-            }
+            <nav className='nav-bar'>
+              {!context.authLoading && !context.auth.loggedIn &&
+                <ul>
+                  <li>
+                    <Link to="/login" tabIndex={-1}>
+                      <button>Sign In</button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/register" tabIndex={-1}>
+                      <button>Register</button>
+                    </Link>
+                  </li>
+                </ul>
+              }
+            </nav>
 
             {!context.authLoading && context.auth.loggedIn &&
               <ul>
                 <li>
-                  Hello, <Link to="/">{context.auth.name}</Link>
+                  Hello, <Link className='link' to="/user/">{context.auth.name}</Link>
                 </li>
               </ul>
             }
