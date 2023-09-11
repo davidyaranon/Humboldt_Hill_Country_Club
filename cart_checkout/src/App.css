@@ -17,3 +17,18 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+.content-wrapper {
+  margin: 0;
+  place-items: center;
+  text-align: center;
+  min-width: 320px;
+  /* min-height: 100vh; */
+  margin-top: 175px;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-top: 50px;
+  }
+}

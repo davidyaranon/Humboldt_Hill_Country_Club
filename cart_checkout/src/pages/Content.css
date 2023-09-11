@@ -1,5 +1,5 @@
 .main-content {
-  margin-top: 10%;
+  /* height: 100vh; */
 }
 
 h1.login-title {
@@ -139,4 +139,8 @@ button:focus {
 .block-container {
   background-color: rgba(97, 169, 77, 0.95);
   height: 35vh;
+}
+
+#not-a-member {
+  padding: 10px;
 }

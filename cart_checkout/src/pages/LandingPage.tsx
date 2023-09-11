@@ -29,7 +29,7 @@ const LandingPage: React.FC = () => {
         <h2>HELLO HELLO HELLO</h2>
       </section>
     </>
-  )
+  );
 };
 
 export default LandingPage;
